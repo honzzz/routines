@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Routines</title>
+    <meta name="description" content="Routines - description">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <span class="appname">Routines</span> by <a href="">Honza</a>
+    </div>
+    
+    <div id="login">
+        <a href="/fblogin/routines/" class="fb">Log in with Facebook</a>
+    </div>
+    
+    <div id="routines">
+        <div id="new_routine">
+            <input id="name" type="text" maxlength="140" placeholder="Name (max. 140 characters)" />
+            <div id="hints">
+                <p>- start with NO if it's something you don't want to do, like "NO sugary drinks".</p>
+            </div>
+                            
+            <!-- data-gramm_editor is there to disable Grammarly in that textarea, it was messing up layout -->
+            <textarea id="note" placeholder="Note..." rows="4" data-gramm_editor="false"></textarea>
+
+            <div id="buttons">
+                <a href="./" id="cancel" class="button">Cancel</a>
+                <div id="save" class="button">Save</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="routine.js"></script>
+</body>
+</html>

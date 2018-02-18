@@ -1,0 +1,162 @@
+html, body {
+    font-family: Arial,sans-serif;
+    min-width: 350px;
+    padding: 0;
+    margin: 0;
+}
+
+/* remove ugly dotted lines around clicked links and buttons in FF */
+button::-moz-focus-inner { border: 0; }
+
+/* remove highlight border around selected controls in Chrome and Safari */
+* {
+    outline: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+}
+
+p {
+    line-height: 26px;
+    font-size: 16px;
+}
+
+#hints p {
+    line-height: 22px;
+    font-size: 13px;
+}
+
+a {
+    color: #4ba3d9;
+}
+
+a.fb {
+    color: white;
+    background-color: #3b5998;
+    padding: 4px 8px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+.appname {
+    font-weight: bold;
+}
+
+#letmeknow {
+    line-height: 30px;
+    font-size: 12px;
+}
+#letmeknow a {
+    text-decoration: none;
+}
+
+#container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+#header {
+    float: left;
+}
+
+#login {
+    float: right;
+}
+
+#routines_wrapper {
+    padding: 100px 0;
+    font-size: 20px;
+}
+
+#routines {
+    padding: 15px 0;
+}
+
+.routine {
+    padding: 15px 0;
+    height: 25px;
+    line-height: 25px;
+}
+
+.state {
+    float: left;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.name {
+    float: left;
+}
+
+.days {
+    float: right;
+    padding: 0 10px;
+}
+
+.skip {
+    font-size: 22px;
+    color: #4ba3d9;
+    cursor: pointer;
+}
+
+.clear {
+    clear: both;
+}
+
+#new {
+    padding-left: 40px;
+}
+
+#new_routine {
+    font-size: 20px;
+    padding: 60px 10px;
+}
+
+#new_routine input, textarea {
+    padding: 4px;
+    width: 100%;
+    font-size: 18px;
+    box-sizing: border-box;
+    border: 1px solid silver;
+    font-family: Arial,sans-serif;
+}
+
+#buttons {
+    padding: 30px 10px;
+}
+
+.button {
+    text-align: center;
+    float: left;
+    color: white;
+    padding: 10px 20px;
+}
+
+#cancel {
+    background-color: #8d8d8d;
+    display: block;
+    width: 60px;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+#save {
+    width: 60px;
+    background-color: #67c013;
+    cursor: pointer;
+}
+
+/* mobile devices */
+@media screen and (max-width: 900px) {
+    #container {
+        padding: 20px 15px;
+    }
+    #routines_wrapper {
+        padding: 50px 0;
+    }
+}
