@@ -20,8 +20,8 @@ function cycleThroughArray(starting_position, steps, array_length) {
 function checkNewDay() {
     if (!data) {return;}
 
-    //var today = (new Date()).setHours(0,0,0,0);console.log(today);
-    var today = 1518908400000+(0*day_in_ms);
+    var today = (new Date()).setHours(0,0,0,0);
+    //var today = 1518908400000+(0*day_in_ms);
 
     // if another day
     if (data.last_check !== today) {console.log('new day');
@@ -30,7 +30,7 @@ function checkNewDay() {
             // if NO type routine
             if (data.routines[i].no) {
                 // add days since last check
-                var days_to_add = (today-data.last_check)/day_in_ms;console.log(data.routines[i].done);
+                var days_to_add = (today-data.last_check)/day_in_ms;
 
                 // if not done the last check
                 if (!data.routines[i].done) {
@@ -39,7 +39,7 @@ function checkNewDay() {
                 }
 
                 // adjust number of days
-                data.routines[i].days = data.routines[i].days+days_to_add;console.log(data.routines[i].days,days_to_add);
+                data.routines[i].days = data.routines[i].days+days_to_add;
 
                 // if there are sub-tasks
                 if (data.routines[i].sub) {
