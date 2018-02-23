@@ -19,6 +19,10 @@ p {
     font-size: 16px;
 }
 
+.clear {
+    clear: both;
+}
+
 #hints p {
     line-height: 22px;
     font-size: 13px;
@@ -28,28 +32,12 @@ a {
     color: #4ba3d9;
 }
 
-a.fb {
-    color: white;
-    background-color: #3b5998;
-    padding: 4px 8px;
-    text-decoration: none;
-    font-size: 14px;
-}
-
 .hidden {
     display: none;
 }
 
 .appname {
-    font-weight: bold;
-}
-
-#letmeknow {
-    line-height: 30px;
-    font-size: 12px;
-}
-#letmeknow a {
-    text-decoration: none;
+    font-size: 22px;
 }
 
 #container {
@@ -64,10 +52,15 @@ a.fb {
 
 #login {
     float: right;
+    padding-top: 4px;
+}
+
+#login a {
+    color: #3b5998;
 }
 
 #routines_wrapper {
-    padding: 100px 0;
+    padding: 50px 0;
     font-size: 20px;
 }
 
@@ -76,9 +69,9 @@ a.fb {
 }
 
 .routine {
-    padding: 15px 0;
-    height: 25px;
-    line-height: 25px;
+    padding: 10px 0;
+    height: 30px;
+    line-height: 30px;
 }
 
 .state {
@@ -102,10 +95,6 @@ a.fb {
     font-size: 22px;
     color: #4ba3d9;
     cursor: pointer;
-}
-
-.clear {
-    clear: both;
 }
 
 #new {
@@ -155,8 +144,5 @@ a.fb {
 @media screen and (max-width: 900px) {
     #container {
         padding: 20px 15px;
-    }
-    #routines_wrapper {
-        padding: 50px 0;
     }
 }

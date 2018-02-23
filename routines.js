@@ -20,7 +20,7 @@ function cycleThroughArray(starting_position, steps, array_length) {
 function checkNewDay() {
     if (!data) {return;}
 
-    var today = (new Date()).setHours(0,0,0,0);
+    var today = (new Date()).setHours(0,0,0,0);//console.log('checking');
     //var today = 1518908400000+(0*day_in_ms);
 
     // if another day
@@ -304,9 +304,10 @@ else {
 
 // new day?
 checkNewDay(); // check on load
-setTimeout(function() {
+setInterval(function() {
     checkNewDay();
-}, 60000); // check each minute
+//}, 60000); // check each minute
+}, 1000); // check each second
 
 
 // remove #_=_ artefact left after facebook login
