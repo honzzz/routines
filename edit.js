@@ -2,6 +2,7 @@
 var $name = document.getElementById('name');
 var $note = document.getElementById('note');
 var $save = document.getElementById('save');
+var $delete = document.getElementById('delete');
 
 // check URL params
 var url_query = window.location.search.substring(1);
@@ -48,6 +49,7 @@ function saveRoutine() {
         routine.note = $note.value;
     }
 
+    // SUB-TASKS
     // check for sub-tasks specified in brackets
     // example:  routine "strength training" has sub-tasks [biceps, abs, legs]
     var subroutines = routine.name.match(/\[(.*?)\]/);
@@ -81,12 +83,11 @@ function saveRoutine() {
         }
     }
 
-    // TODO trim spaces around routine name
+    // trim spaces around routine name
     routine.name = routine.name.trim();
 
 
     // VALIDATE
-
     // name longer than 2 characters
     if (routine.name.length < 3) {
         alert('Routine name should be at least 3 characters long.');
@@ -147,6 +148,43 @@ function saveRoutine() {
     window.location.href = './';
 }
 
+
+function deleteRoutine() {console.log('del');
+    // user logged in
+    if (user) {
+        // delete routine in db
+    }
+    else {
+        // delete routine in local data
+        // loop through routines
+        for (var i=0; i<data.routines.length; i++) {
+            // find the routine to delete
+            if (data.routines[i].id == routine_id) {
+                // if chain longer than 10 days
+                if (data.routines[i].days > 10) {
+                    // throw a warning and only delete if confirmed
+                    if (!confirm('Do you want to delete the routine you have been doing for '+data.routines[i].days+' days?')) {
+                        break;
+                    }
+                }
+
+                // remove routine from data
+                data.routines.splice(i, 1);
+
+                // store updated data
+                localStorage.setItem('routines', JSON.stringify(data));
+
+                // redirect to home page
+                //window.location.href = './index.html'; // index.html is there for android app
+                window.location.href = './';
+
+                break;
+            }
+        }
+    }
+}
+
+
 // old routine being edited
 if (routine_id !== 'new') {
     // user logged in
@@ -154,6 +192,10 @@ if (routine_id !== 'new') {
         // get routine from server
     }
     else {
+        // display delete button and append click listener to it
+        $delete.classList.remove('hidden');
+        $delete.addEventListener('click', deleteRoutine, false);
+
         // get all data from local storage
         data = JSON.parse(localStorage.getItem('routines'));
 

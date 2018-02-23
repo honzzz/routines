@@ -131,7 +131,7 @@ function renderRoutines(routines) {
         html = html+'<div class="routine">'+
         '<svg data-id="'+routines[i].id+'" class="state" fill="'+fill+'" width="28" height="28" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="'+path+'"/>'+
         '<title>'+state_title+'</title></svg>'+
-        '<a href="routine.html?routine='+routines[i].id+'" class="name" title=" View/edit routine details ">'+routines[i].name+'</a>'+tasks+'<div class="days">'+routines[i].days+'</div></div>';
+        '<a href="edit.html?routine='+routines[i].id+'" class="name" title=" View/edit routine details ">'+routines[i].name+'</a>'+tasks+'<div class="days">'+routines[i].days+'</div></div>';
     }
 
     $routines.innerHTML = html;

@@ -107,7 +107,7 @@ a {
 
 #new_routine {
     font-size: 20px;
-    padding: 60px 10px;
+    padding: 0 10px;
 }
 
 #new_routine input, textarea {
@@ -120,26 +120,32 @@ a {
 }
 
 #buttons {
-    padding: 30px 10px;
+    padding: 30px 0;
 }
 
 .button {
     text-align: center;
     float: left;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 15px;
 }
 
 #cancel {
     background-color: #8d8d8d;
     display: block;
     width: 60px;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 #save {
     width: 60px;
     background-color: #67c013;
+    cursor: pointer;
+}
+
+#delete {
+    background-color: #ed0000;
+    float: right;
     cursor: pointer;
 }
 
