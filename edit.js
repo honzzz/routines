@@ -149,7 +149,7 @@ function saveRoutine() {
 }
 
 
-function deleteRoutine() {console.log('del');
+function deleteRoutine() {
     // user logged in
     if (user) {
         // delete routine in db

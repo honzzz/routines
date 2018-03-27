@@ -16,21 +16,43 @@ function cycleThroughArray(starting_position, steps, array_length) {
     return result;
 }
 
+// get day in YYYY-MM-DD format
+// based on https://stackoverflow.com/a/3067896/716001
+function getDay(date) {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based, therefore +1
+    var dd = date.getDate();
+
+    return [date.getFullYear(),
+        (mm>9 ? '' : '0') + mm,
+        (dd>9 ? '' : '0') + dd
+    ].join('-');
+};
+
+// how many days between dates
+// based on https://stackoverflow.com/a/15289883/716001
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / day_in_ms);
+}
+
 // new day
-function checkNewDay() {
+function checkNewDay() {//console.log('check');
     if (!data) {return;}
 
-    var today = (new Date()).setHours(0,0,0,0);//console.log('checking');
-    //var today = 1518908400000+(0*day_in_ms);
+    var today = getDay(new Date());
+    var yesterday = getDay(new Date(Date.now() - 86400000));
 
     // if another day
-    if (data.last_check !== today) {console.log('new day');
+    if (data.last_check !== today) {
         // loop through all routines
          for (var i=0; i < data.routines.length; i++) {
             // if NO type routine
             if (data.routines[i].no) {
                 // add days since last check
-                var days_to_add = (today-data.last_check)/day_in_ms;
+                var days_to_add = dateDiffInDays(new Date(data.last_check), new Date(today));
 
                 // if not done the last check
                 if (!data.routines[i].done) {
@@ -52,7 +74,7 @@ function checkNewDay() {
             }
             else {
                 // if last check was not yesterday or it was not done
-                if (data.last_check !== (today - day_in_ms) || !data.routines[i].done) {
+                if (data.last_check !== yesterday || !data.routines[i].done) {
                     // reset day count
                     data.routines[i].days = 0;
                 }
@@ -283,7 +305,7 @@ if (user) {
 }
 else {
     // try to get data from local storage
-    data = JSON.parse(localStorage.getItem('routines'));
+    data = JSON.parse(localStorage.getItem('routines'));document.getElementById('test').innerHTML = JSON.stringify(data);
 
     if (data) {
         // logged in before, data moved to db
