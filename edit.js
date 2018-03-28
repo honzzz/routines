@@ -17,6 +17,18 @@ var user = $routines.getAttribute('data-user');
 var data;
 var routine = {};
 
+// get day in YYYY-MM-DD format
+// based on https://stackoverflow.com/a/3067896/716001
+function getDay(date) {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based, therefore +1
+    var dd = date.getDate();
+
+    return [date.getFullYear(),
+        (mm>9 ? '' : '0') + mm,
+        (dd>9 ? '' : '0') + dd
+    ].join('-');
+};
+
 // get URL params
 // based on https://css-tricks.com/snippets/javascript/get-url-variables/
 function getQueryVariable(query, param) {
@@ -117,7 +129,7 @@ function saveRoutine() {
         // if new routine
         if (routine_id === 'new') {
             // use timestamp as id
-            routine.id = (new Date()).getTime();
+            routine.id = (+new Date).toString(36);  // create ID like "iepii89m" out of timestamp
 
             // push into data (to the beginning of array - newest at the top)
             data.routines.unshift(routine);
@@ -238,22 +250,12 @@ else {
     if (!user) {
         // get all data from local storage
         data = JSON.parse(localStorage.getItem('routines')) || {
-            'last_check': (new Date()).setHours(0,0,0,0), // set last check to today if no data yet (user just started using app)
+            'last_check': getDay(new Date()), // set last check to today if no data yet (user just started using app)
+            'days_without_fail': 0,
             'routines': []
         };
     }
 }
-
-
-// keyboard shortcut - saving with enter
-    window.onkeyup = function(e) {
-        var key = e.keyCode || e.keyCode; // TODO zkontrolovat, že funguje v různých prohlížečích
-
-        if (key == 13) { // enter
-            // jump back
-            $save.click();
-        }
-    };
 
 
 $save.addEventListener('click', saveRoutine, false);

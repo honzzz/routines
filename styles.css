@@ -72,6 +72,11 @@ a {
     padding: 15px 0;
 }
 
+#magic_number {
+    padding: 10px 40px;
+    line-height: 30px;
+}
+
 .routine {
     padding: 10px 0;
     height: 30px;
@@ -153,5 +158,9 @@ a {
 @media screen and (max-width: 900px) {
     #container {
         padding: 20px 15px;
+    }
+
+    #magic_number {
+        padding: 10px 3px;
     }
 }

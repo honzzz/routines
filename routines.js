@@ -39,25 +39,36 @@ function dateDiffInDays(a, b) {
 }
 
 // new day
-function checkNewDay() {//console.log('check');
+function checkNewDay() {
     if (!data) {return;}
 
+    //var today = getDay(new Date('2018-03-08T15:04:17.542Z'));
     var today = getDay(new Date());
-    var yesterday = getDay(new Date(Date.now() - 86400000));
 
     // if another day
     if (data.last_check !== today) {
+
+        // days since last check
+        var days_since_last_check = dateDiffInDays(new Date(data.last_check), new Date(today));
+
+        // add one day without fail (if anything failed, it will be set to 0 later)
+        data.days_without_fail = data.days_without_fail+days_since_last_check || 1; // TODO remove || 1, it's there to introduce new feature without errors 
+
         // loop through all routines
-         for (var i=0; i < data.routines.length; i++) {
+        for (var i=0; i < data.routines.length; i++) {
             // if NO type routine
             if (data.routines[i].no) {
                 // add days since last check
-                var days_to_add = dateDiffInDays(new Date(data.last_check), new Date(today));
+                var days_to_add = days_since_last_check;
 
                 // if not done the last check
                 if (!data.routines[i].done) {
                     // deduct one day
                     days_to_add = days_to_add-1;
+
+                    // reset days without fail to 0
+                    data.days_without_fail = 0;
+
                 }
 
                 // adjust number of days
@@ -72,19 +83,23 @@ function checkNewDay() {//console.log('check');
                 // reset state to 'done'
                 data.routines[i].done = true; // this has to be done after state from day of last check checked
             }
+            // NORMAL routine
             else {
-                // if last check was not yesterday or it was not done
-                if (data.last_check !== yesterday || !data.routines[i].done) {
-                    // reset day count
-                    data.routines[i].days = 0;
-                }
                 // if last check was yesterday and it was done
-                else {
+                if (days_since_last_check === 1 && data.routines[i].done) {
                     // check if there are sub-tasks...
                     if (data.routines[i].sub) {
                         // ...and go to next task
                         data.routines[i].sub.pos = cycleThroughArray(data.routines[i].sub.pos, 1, data.routines[i].sub.tasks.length);
                     }
+                }
+                // if last check was NOT yesterday or it was NOT done
+                else {
+                    // reset day count
+                    data.routines[i].days = 0;
+
+                    // reset count of days without fail
+                    data.days_without_fail = 0;
                 }
 
                 // reset state to 'not done'
@@ -93,7 +108,7 @@ function checkNewDay() {//console.log('check');
         }
 
         // re-draw view
-        renderRoutines(data.routines);
+        renderRoutines(data);
 
         // update date
         data.last_check = today;
@@ -115,7 +130,8 @@ function moveDataToDB () {
 
 }
 
-function renderRoutines(routines) {
+function renderRoutines(data) {
+    var routines = data.routines;
     var html = '', icon = '', fill = '', path = '', state_title = '';
     var checkmark = 'M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z';
     var frownyface = 'M1262 1229q8 25-4 48.5t-37 31.5-49-4-32-38q-25-80-92.5-129.5t-151.5-49.5-151.5 49.5-92.5 129.5q-8 26-31.5 38t-48.5 4q-26-8-38-31.5t-4-48.5q37-121 138-195t228-74 228 74 138 195zm-494-589q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm512 0q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm256 256q0-130-51-248.5t-136.5-204-204-136.5-248.5-51-248.5 51-204 136.5-136.5 204-51 248.5 51 248.5 136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5zm128 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z';
@@ -156,7 +172,14 @@ function renderRoutines(routines) {
         '<a href="edit.html?routine='+routines[i].id+'" class="name" title=" View/edit routine details ">'+routines[i].name+'</a>'+tasks+'<div class="days">'+routines[i].days+'</div></div>';
     }
 
-    $routines.innerHTML = html;
+    // if more routines than 1, append the magic number of days without fail
+    var magic_number = '';
+    if (routines.length > 1 && data.days_without_fail > 0) {
+        // TODO prepend words like 'nice', 'awesome' or 'glorious' based on number of words?
+        magic_number = '<div id="magic_number"><span id="days_without_fail">'+data.days_without_fail+'</span> day'+(data.days_without_fail>1 ? 's' : '')+' without fail, midnight to midnight.</div>';
+    }
+
+    $routines.innerHTML = html+magic_number;
 
     // grab all .state elements and attach click listeners
     var states = document.getElementsByClassName("state");
@@ -193,7 +216,7 @@ function skipForward() {
                 data.routines[i].sub.pos = cycleThroughArray(data.routines[i].sub.pos, 1, data.routines[i].sub.tasks.length);
 
                 // re-draw view
-                renderRoutines(data.routines);
+                renderRoutines(data);
 
                 // store data
                 localStorage.setItem('routines', JSON.stringify(data));
@@ -205,7 +228,7 @@ function skipForward() {
 }
 
 function toggleState() {
-    // get ID of pack to be toggled
+    // get ID of routine to be toggled
     var routine_to_toggle = this.getAttribute("data-id");
 
     if (user) {
@@ -228,11 +251,15 @@ function toggleState() {
                             if (confirm('Did you break the chain of '+data.routines[i].days+' days?')) {
                                 data.routines[i].done = 0;
                                 data.routines[i].days = 0;
+
+                                data.days_without_fail = 0;
                             }
                         }
                         else {
                             data.routines[i].done = 0;
                             data.routines[i].days = 0;
+
+                            data.days_without_fail = 0;
                         }
                     }
                     else {
@@ -263,35 +290,13 @@ function toggleState() {
                 // toggleIcon(this, data.routines[i].done);
 
                 // re-draw view
-                renderRoutines(data.routines); // TODO is it good to re-draw the whole view when anything changes?
+                renderRoutines(data); // TODO is it good to re-draw the whole view when anything changes?
 
                 break;
             }
         }
     }
 }
-
-// function msTranslate(from, to, text) {
-//     // ajax request based on https://stackoverflow.com/a/24468752/716001
-//     var xhr = new XMLHttpRequest();
-//     xhr.open("POST", "/mstranslator", true);
-//     xhr.setRequestHeader("Content-type", "application/json");
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState === 4 && xhr.status === 200) {
-//             var response = JSON.parse(xhr.responseText);
-//             $translatedword.textContent = response.translation;
-//         }
-//         else {
-//             $translatedword.textContent = 'ERROR';
-//         }
-//     };
-//     var data = JSON.stringify({
-//         from: from,
-//         to: to,
-//         text: text
-//     });
-//     xhr.send(data);
-// }
 
 
 // LOAD DATA
@@ -301,7 +306,7 @@ if (user) {
     // get data from server
 
     // render data
-    renderRoutines(data.routines);
+    renderRoutines(data);
 }
 else {
     // try to get data from local storage
@@ -314,7 +319,7 @@ else {
         }
         else {
             // never logged in, uses app, data stored locally
-            renderRoutines(data.routines);
+            renderRoutines(data);
         }
     }
     else {
