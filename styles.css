@@ -73,8 +73,22 @@ a {
 }
 
 #magic_number {
-    padding: 10px 40px;
-    line-height: 30px;
+    padding: 25px 0;
+    line-height: 18px;
+    font-size: 18px;
+    color: #c0c0c0;
+}
+
+#days_without_fail {
+    float: left;
+    color: white;
+    background-color: #c0c0c0;
+    padding: 7px 12px 5px;
+    border-radius: 5px;
+    margin-right: 6px;
+    font-size: 25px;
+    line-height: 25px;
+    height: 25px;
 }
 
 .routine {
@@ -107,7 +121,7 @@ a {
 }
 
 #new {
-    padding-left: 40px;
+    padding-left: 2px;
 }
 
 #new_routine {
@@ -158,9 +172,5 @@ a {
 @media screen and (max-width: 900px) {
     #container {
         padding: 20px 15px;
-    }
-
-    #magic_number {
-        padding: 10px 3px;
     }
 }

@@ -176,7 +176,7 @@ function renderRoutines(data) {
     var magic_number = '';
     if (routines.length > 1 && data.days_without_fail > 0) {
         // TODO prepend words like 'nice', 'awesome' or 'glorious' based on number of words?
-        magic_number = '<div id="magic_number"><span id="days_without_fail">'+data.days_without_fail+'</span> day'+(data.days_without_fail>1 ? 's' : '')+' without fail, midnight to midnight.</div>';
+        magic_number = '<div id="magic_number"><div id="days_without_fail">'+data.days_without_fail+'</div> day'+(data.days_without_fail>1 ? 's' : '')+' without fail<br />midnight to midnight.</div>';
     }
 
     $routines.innerHTML = html+magic_number;
@@ -311,7 +311,7 @@ if (user) {
 else {
     // try to get data from local storage
     data = JSON.parse(localStorage.getItem('routines'));
-    data = {"last_check":'2018-05-13',"days_without_fail":47,"routines":[{"name":"No sweets","note":"Ne buchty, čokolády, oplatky, medovníky atp. Smím buchty od mamky, darované sladkosti, dobroty na svatbách, když pozvu dámu do cukrárny a podobně. ","days":77,"done":true,"no":true,"id":308258},{"name":"No P","note":"No porn. ","days":47,"done":true,"no":true,"id":151941}]};localStorage.setItem('routines', JSON.stringify(data));
+    //data = {"last_check":'2018-05-13',"days_without_fail":47,"routines":[{"name":"No sweets","note":"Ne buchty, čokolády, oplatky, medovníky atp. Smím buchty od mamky, darované sladkosti, dobroty na svatbách, když pozvu dámu do cukrárny a podobně. ","days":77,"done":true,"no":true,"id":308258},{"name":"No P","note":"No porn. ","days":47,"done":true,"no":true,"id":151941}]};localStorage.setItem('routines', JSON.stringify(data));
 
     if (data) {
         // logged in before, data moved to db
