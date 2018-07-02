@@ -311,7 +311,7 @@ if (user) {
 else {
     // try to get data from local storage
     data = JSON.parse(localStorage.getItem('routines'));
-    //data = {"last_check":'2018-05-13',"days_without_fail":47,"routines":[{"name":"No sweets","note":"Ne buchty, čokolády, oplatky, medovníky atp. Smím buchty od mamky, darované sladkosti, dobroty na svatbách, když pozvu dámu do cukrárny a podobně. ","days":77,"done":true,"no":true,"id":308258},{"name":"No P","note":"No porn. ","days":47,"done":true,"no":true,"id":151941}]};localStorage.setItem('routines', JSON.stringify(data));
+    data = {"last_check":'2018-07-02',"days_without_fail":97,"routines":[{"name":"No sweets","note":"Ne buchty, čokolády, oplatky, medovníky atp. Smím buchty od mamky, darované sladkosti, dobroty na svatbách, když pozvu dámu do cukrárny a podobně. ","days":127,"done":true,"no":true,"id":308258},{"name":"No P","note":"No porn. ","days":97,"done":true,"no":true,"id":151941}]};localStorage.setItem('routines', JSON.stringify(data));
 
     if (data) {
         // logged in before, data moved to db
